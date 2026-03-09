@@ -34,14 +34,21 @@ def fetch_data(lookback_days=1095):
     
     data = {}
     for ticker in TICKERS:
-        df = yf.download(ticker, start=start_date, end=end_date, progress=False)
-        # Flatten MultiIndex columns (newer yfinance returns MultiIndex even for single ticker)
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        if 'Adj Close' in df.columns:
-            data[ticker] = df[['Adj Close', 'High', 'Low']]
-        else:
-            data[ticker] = df[['Close', 'High', 'Low']].rename(columns={'Close': 'Adj Close'})
+        try:
+            df = yf.download(ticker, start=start_date, end=end_date, progress=False)
+            # Flatten MultiIndex columns (newer yfinance returns MultiIndex even for single ticker)
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+            if df.empty or len(df) < 10:
+                print(f"⚠️ {ticker} 數據不足，跳過")
+                continue
+            if 'Adj Close' in df.columns:
+                data[ticker] = df[['Adj Close', 'High', 'Low']]
+            else:
+                data[ticker] = df[['Close', 'High', 'Low']].rename(columns={'Close': 'Adj Close'})
+        except Exception as e:
+            print(f"⚠️ {ticker} 下載失敗: {e}，跳過")
+            continue
     
     return data
 
@@ -105,20 +112,27 @@ def calc_window(window_df, current_price, window_name):
 
 def plot_results(data, results):
     """生成圖表"""
-    n = len(TICKERS)
+    available_tickers = list(data.keys())
+    n = len(available_tickers)
+    if n == 0:
+        print("⚠️ 無有效數據，跳過圖表生成")
+        return None
+    
     fig, axes = plt.subplots(n, 2, figsize=(14, 4 * n))
+    if n == 1:
+        axes = axes.reshape(1, -1)  # Ensure 2D shape
     fig.suptitle('ETF 高低點追蹤', fontsize=16, fontweight='bold')
     
     colors = {'VT': '#1f77b4', 'VOO': '#ff7f0e', 'VTI': '#2ca02c', 'SOXX': '#9467bd'}
     windows = ['1M', '3M', '6M', '1Y', 'YTD', '3Y']
     
-    for idx, ticker in enumerate(TICKERS):
+    for idx, ticker in enumerate(available_tickers):
         df = data[ticker]
         
         # 價格走勢
         ax = axes[idx, 0]
         recent = df.iloc[-252:]
-        ax.plot(recent.index, recent['Adj Close'], color=colors[ticker], linewidth=2)
+        ax.plot(recent.index, recent['Adj Close'], color=colors.get(ticker, '#333333'), linewidth=2)
         ax.set_title(f'{ticker} - 近一年走勢', fontweight='bold')
         ax.set_ylabel('USD')
         ax.grid(True, alpha=0.3)
@@ -171,7 +185,7 @@ def print_summary(results):
     print("ETF 高低點追蹤結果")
     print("="*100)
     
-    for ticker in TICKERS:
+    for ticker in results.keys():
         print(f"\n【{ticker}】 當前: ${results[ticker]['當前價格']:.2f}  更新: {results[ticker]['更新時間']}")
         
         for window in ['1M', '3M', '6M', '1Y', 'YTD', '3Y']:

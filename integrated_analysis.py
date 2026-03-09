@@ -135,7 +135,7 @@ def generate_summary_report(etf_results):
         f.write("-"*100 + "\n\n")
         
         if etf_results:
-            for ticker in ['VT', 'VOO', 'VTI']:
+            for ticker in etf_results.keys():
                 if ticker in etf_results:
                     data = etf_results[ticker]
                     f.write(f"{ticker}:\n")
