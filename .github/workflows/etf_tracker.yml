@@ -1,0 +1,87 @@
+name: Momentum + ETF Analysis
+
+on:
+  schedule:
+    # 週一至五 09:30 UTC (台北時間 17:30)
+    - cron: '30 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 步驟 1：簽出代碼
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # 步驟 2：設置 Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      # 步驟 3：安裝依賴
+      - name: Install dependencies
+        run: |
+          pip install -q yfinance pandas numpy matplotlib seaborn pytz
+          # 如果需要 LINE 或其他依賴，添加在這
+          # pip install -q line-bot-sdk requests
+      
+      # 步驟 4：執行分析
+      - name: Run analysis
+        env:
+          CHANNEL_ACCESS_TOKEN: ${{ secrets.CHANNEL_ACCESS_TOKEN }}
+          USER_ID: ${{ secrets.USER_ID }}
+        run: python integrated_analysis.py
+      
+      # 步驟 5：查看日誌摘要
+      - name: Display logs
+        if: always()
+        run: |
+          echo "📋 執行日誌："
+          cat analysis_results/execution_log.txt || echo "（無日誌文件）"
+          echo ""
+          echo "📊 執行摘要："
+          cat analysis_results/summary_report.txt || echo "（無報告文件）"
+      
+      # 步驟 6：提交結果到倉庫
+      - name: Commit and push results
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "bot"
+          git add -A analysis_results/ etf_results/
+          git commit -m "📊 Analysis Results: $(date +%Y-%m-%d\ %H:%M)" || true
+          git push
+      
+      # 步驟 7：上傳結果作為 Artifacts
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: analysis-results-${{ github.run_number }}
+          path: |
+            analysis_results/
+            etf_results/
+          retention-days: 30
+      
+      # 步驟 8：失敗時的通知（可選）
+      - name: Notify on failure
+        if: failure()
+        run: echo "⚠️ 執行失敗，請檢查日誌"
+
+permissions:
+  contents: write
+
+  - name: Copy results to docs
+  run: |
+    mkdir -p docs/data
+    cp -r analysis_results docs/data/ || true
+    cp -r etf_results docs/data/ || true
+
+- name: Update docs
+  run: |
+    git add docs/data/
+    git commit -m "📊 Update dashboard" || true
+    git push

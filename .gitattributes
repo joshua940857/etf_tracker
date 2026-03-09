@@ -1,2 +1,38 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+```bash
+cat > .github/workflows/etf_tracker.yml << 'EOF'
+name: ETF Tracker
+
+on:
+  schedule:
+    - cron: '30 9 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  etf-tracker:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -q yfinance pandas numpy matplotlib seaborn pytz
+      - run: python etf_tracker.py
+      - run: |
+          git config user.email "action@github.com"
+          git config user.name "bot"
+          git add -A
+          git commit -m "📊 ETF Tracker: $(date +%Y-%m-%d)" || true
+          git push
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: etf-results-${{ github.run_number }}
+          path: etf_results/
+          retention-days: 30
+
+permissions:
+  contents: write
+EOF
+```

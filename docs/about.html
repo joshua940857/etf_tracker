@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於本儀表板 | 投資分析系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+        }
+
+        /* Content */
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .content h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content ul {
+            color: #666;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+
+        .highlight h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .code-block code {
+            color: #333;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Schedule Info */
+        .schedule {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .schedule h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .schedule p {
+            color: #856404;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>📊 投資分析儀表板</h1>
+            <p>關於本系統</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content">
+            <h2>🎯 系統簡介</h2>
+            <p>
+                這是一個自動化的投資分析系統，結合了 Momentum 交易策略和 ETF 高低點追蹤。
+                系統每週自動執行，將結果展示在這個 Web 儀表板上。
+            </p>
+
+            <h2>⚙️ 核心功能</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📈 Momentum 追蹤</h3>
+                    <p>監控投資組合的動量表現，識別買賣信號</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 ETF 高低點</h3>
+                    <p>追蹤 VT、VOO、VTI 的高低點和距離百分比</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔄 自動執行</h3>
+                    <p>每週定時自動分析，無需手動干預</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 可視化展示</h3>
+                    <p>生成圖表和報告，易於理解和分析</p>
+                </div>
+            </div>
+
+            <h2>📅 執行計畫</h2>
+            <div class="schedule">
+                <h3>⏰ 定期執行</h3>
+                <p>
+                    <strong>執行時間：</strong> 每週一至五 09:30 UTC<br>
+                    <strong>台北時間：</strong> 每週一至五 17:30<br>
+                    <strong>自動更新：</strong> GitHub Actions 提供動力
+                </p>
+            </div>
+
+            <h2>📊 數據來源</h2>
+            <ul>
+                <li><strong>ETF 價格數據：</strong> Yahoo Finance（通過 yfinance 庫）</li>
+                <li><strong>Momentum 數據：</strong> 內部系統計算</li>
+                <li><strong>更新頻率：</strong> 每周一次（或手動觸發）</li>
+            </ul>
+
+            <h2>🔍 追蹤指標說明</h2>
+            
+            <h3 style="color: #667eea; margin: 20px 0 10px; font-size: 1.1em;">ETF 高低點</h3>
+            <ul>
+                <li><strong>高點 (H)：</strong> 指定時間窗口內的最高價格</li>
+                <li><strong>低點 (L)：</strong> 指定時間窗口內的最低價格</li>
+                <li><strong>距離高點 (%)：</strong> 當前價格相對高點的百分比變化
+                    <ul style="margin-top: 5px;">
+                        <li>💚 綠色（正值）：價格高於高點（罕見）</li>
+                        <li>❌ 紅色（負值）：價格低於高點（正常）</li>
+                    </ul>
+                </li>
+                <li><strong>距離低點 (%)：</strong> 當前價格相對低點的百分比變化
+                    <ul style="margin-top: 5px;">
+                        <li>💚 綠色（>5%）：距低點較遠，可能被高估</li>
+                        <li>🟡 黃色（2-5%）：中等距離</li>
+                        <li>❌ 紅色（<2%）：接近低點，可能被低估</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>📋 時間窗口</h2>
+            <p>系統追蹤以下時間窗口：</p>
+            <ul>
+                <li><strong>1M：</strong> 最近 1 個月（約 21 個交易日）</li>
+                <li><strong>3M：</strong> 最近 3 個月（約 63 個交易日）</li>
+                <li><strong>6M：</strong> 最近 6 個月（約 126 個交易日）</li>
+                <li><strong>1Y：</strong> 最近 1 年（約 252 個交易日）</li>
+                <li><strong>YTD：</strong> 年初至今</li>
+                <li><strong>3Y：</strong> 近 3 年全期</li>
+            </ul>
+
+            <h2>📈 查看數據</h2>
+            <p>儀表板提供多種方式查看和下載數據：</p>
+            <ul>
+                <li><strong>即時儀表板：</strong> 在這個頁面查看最新數據</li>
+                <li><strong>摘要報告：</strong> 執行摘要（TXT 格式）</li>
+                <li><strong>詳細日誌：</strong> 完整的執行日誌</li>
+                <li><strong>CSV 數據：</strong> 可用 Excel 或其他工具開啟</li>
+                <li><strong>JSON 數據：</strong> 用於程式化讀取</li>
+                <li><strong>圖表：</strong> PNG 格式的走勢圖</li>
+            </ul>
+
+            <h2>🔗 相關鏈接</h2>
+            <div class="nav-buttons">
+                <a href="index.html" class="btn btn-primary">← 返回主儀表板</a>
+                <a href="data/analysis_results/summary_report.txt" class="btn btn-primary" target="_blank">
+                    查看摘要報告
+                </a>
+                <a href="data/" class="btn btn-primary" target="_blank">
+                    瀏覽數據目錄
+                </a>
+            </div>
+
+            <h2>❓ 常見問題</h2>
+            
+            <div class="highlight">
+                <h3>Q: 為什麼某些 ETF 的數據不完整？</h3>
+                <p>A: 如果某個時間窗口的數據尚未完全形成（如新年的 YTD），系統會跳過該部分。</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Q: 數據有多及時？</h3>
+                <p>A: 數據在美股收盤後更新（UTC 時間 21:00 = 台北時間隔日 05:00）。系統於 UTC 09:30 執行，使用前一交易日的收盤數據。</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Q: 能否改變執行時間？</h3>
+                <p>A: 可以，需要修改 GitHub Actions 工作流的 cron 時間設置。詳見 GitHub 倉庫的設置。</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Q: 如何獲得通知？</h3>
+                <p>A: 可以設置多種通知方式：
+                    <ul style="margin-top: 10px;">
+                        <li>GitHub 通知（每次執行完成）</li>
+                        <li>郵件通知（可選配置）</li>
+                        <li>Slack/Discord 通知（可選配置）</li>
+                    </ul>
+                </p>
+            </div>
+
+            <h2>🔐 隱私和安全</h2>
+            <ul>
+                <li>所有數據來自公開的 Yahoo Finance API</li>
+                <li>結果存儲在您自己的 GitHub 倉庫</li>
+                <li>未上傳到任何第三方服務</li>
+                <li>完全開源，代碼可驗證</li>
+            </ul>
+
+            <h2>📝 免責聲明</h2>
+            <p style="color: #dc2626; font-weight: bold;">
+                本儀表板僅供教育和參考之用，不構成投資建議。
+                過去的表現不代表未來結果。
+                投資決策應基於個人的財務狀況和風險承受能力。
+                請自行進行充分的研究，或諮詢專業的財務顧問。
+            </p>
+
+            <h2>🚀 技術棧</h2>
+            <ul>
+                <li><strong>後端：</strong> Python + GitHub Actions</li>
+                <li><strong>數據來源：</strong> yfinance</li>
+                <li><strong>前端：</strong> HTML5 + CSS3 + JavaScript</li>
+                <li><strong>託管：</strong> GitHub Pages</li>
+                <li><strong>版本控制：</strong> Git + GitHub</li>
+            </ul>
+
+            <h2>📧 聯繫方式</h2>
+            <p>
+                如有任何問題或建議，請通過以下方式聯繫：
+                <br>
+                <strong>GitHub Issues：</strong> 在倉庫中提交 Issue
+            </p>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="nav-buttons" style="justify-content: center; margin-bottom: 20px;">
+                <a href="index.html" class="btn btn-primary">返回主儀表板</a>
+            </div>
+            <p>© 2026 投資分析系統 | 由 GitHub Actions 自動生成</p>
+        </footer>
+    </div>
+</body>
+</html>
