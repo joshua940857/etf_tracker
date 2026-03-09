@@ -68,7 +68,7 @@ jobs:
       # 步驟 8：上傳結果作為 Artifacts
       - name: Upload results
         if: always()
-        uses: actions/upload-artifact@v4   # 改這裡：v3 → v4
+        uses: actions/upload-artifact@v5   # 改這裡：v3 → v4
         with:
           name: analysis-results-${{ github.run_number }}
           path: |
