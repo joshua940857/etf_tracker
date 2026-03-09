@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/c/Users/Joshua/AppData/Local/Python/pythoncore-3.14-64/python.exe etf_tracker.py)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/Users/Joshua/AppData/Local/Python/pythoncore-3.14-64/python.exe etf_tracker.py)"
+    ]
+  }
+}
