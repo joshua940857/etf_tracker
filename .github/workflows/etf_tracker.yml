@@ -68,13 +68,14 @@ jobs:
       # 步驟 8：上傳結果作為 Artifacts
       - name: Upload results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4   # 改這裡：v3 → v4
         with:
           name: analysis-results-${{ github.run_number }}
           path: |
             analysis_results/
             etf_results/
           retention-days: 30
+
 
       # 步驟 9：失敗時的通知（可選）
       - name: Notify on failure
