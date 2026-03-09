@@ -17,7 +17,7 @@ import json
 # 配置
 # ============================================================================
 
-TICKERS = ['VT', 'VOO', 'VTI']
+TICKERS = ['VT', 'VOO', 'VTI','SOXX']
 RESULT_DIR = Path('etf_results')
 TZ = pytz.timezone('Asia/Taipei')
 
@@ -105,10 +105,11 @@ def calc_window(window_df, current_price, window_name):
 
 def plot_results(data, results):
     """生成圖表"""
-    fig, axes = plt.subplots(3, 2, figsize=(14, 12))
+    n = len(TICKERS)
+    fig, axes = plt.subplots(n, 2, figsize=(14, 4 * n))
     fig.suptitle('ETF 高低點追蹤', fontsize=16, fontweight='bold')
     
-    colors = {'VT': '#1f77b4', 'VOO': '#ff7f0e', 'VTI': '#2ca02c'}
+    colors = {'VT': '#1f77b4', 'VOO': '#ff7f0e', 'VTI': '#2ca02c', 'SOXX': '#9467bd'}
     windows = ['1M', '3M', '6M', '1Y', 'YTD', '3Y']
     
     for idx, ticker in enumerate(TICKERS):

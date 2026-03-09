@@ -7,6 +7,8 @@ import os
 import json
 from datetime import datetime
 import pytz
+import shutil
+
 
 # ============================================================================
 # 你既有的 momentum 系統導入
@@ -207,7 +209,8 @@ def main():
     
     # Step 4: 發送到 LINE
     send_to_line(etf_results)
-    
+    copy_success = copy_results_to_docs()
+
     # Step 5: 最終摘要
     print("\n" + "="*100)
     print("📊 執行摘要")
@@ -224,5 +227,47 @@ def main():
     
     logger.log("系統執行完畢", level='END')
 
+def copy_results_to_docs():
+    """自動複製結果到 docs（用於 GitHub Pages）"""
+    try:
+        import os
+        from pathlib import Path
+        
+        logger.log("正在複製結果到 docs...", level='INFO')
+        
+        # 建立目標目錄
+        docs_dir = Path('docs/data')
+        docs_etf = docs_dir / 'etf_results'
+        docs_analysis = docs_dir / 'analysis_results'
+        
+        docs_etf.mkdir(parents=True, exist_ok=True)
+        docs_analysis.mkdir(parents=True, exist_ok=True)
+        
+        # 複製 ETF 結果
+        source_etf = Path('etf_results')
+        if source_etf.exists():
+            for file in source_etf.glob('*'):
+                if file.is_file():
+                    shutil.copy2(file, docs_etf / file.name)
+            logger.log(f"✓ 已複製 ETF 結果", level='INFO')
+        
+        # 複製分析結果
+        source_analysis = Path('analysis_results')
+        if source_analysis.exists():
+            for file in source_analysis.glob('*'):
+                if file.is_file():
+                    shutil.copy2(file, docs_analysis / file.name)
+            logger.log(f"✓ 已複製分析結果", level='INFO')
+        
+        logger.log("✅ 結果已自動複製到 docs/data", level='SUCCESS')
+        return True
+        
+    except Exception as e:
+        logger.log(f"❌ 複製失敗: {e}", level='ERROR')
+        return False
+
+
+
 if __name__ == '__main__':
     main()
+
